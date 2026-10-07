@@ -27,4 +27,17 @@ return [
 
     'cache' => 600,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom events for agents
+    |--------------------------------------------------------------------------
+    |
+    | Names sent with footprint.track() that AI agents may see through the
+    | footprint-statamic-mcp tools. Any other name stays hidden from them,
+    | since anyone can post a batch with any name.
+    |
+    */
+
+    'events' => [],
+
 ];
