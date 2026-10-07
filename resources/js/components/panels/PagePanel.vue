@@ -1,5 +1,5 @@
 <script setup>
-import { CardPanel, Switch } from '@statamic/cms/ui';
+import { CardPanel, Icon, Switch } from '@statamic/cms/ui';
 import { computed, ref, shallowRef, watch } from 'vue';
 import { DEVICES, number } from '../../interactions/format.js';
 import { useLazy } from '../../interactions/lazy.js';
@@ -19,6 +19,12 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['found', 'close']);
+
+const LAYERS = [
+    { key: 'attention', label: 'Attention', description: 'Each section is tinted darker the fewer views reached it, and labelled with its reach and median time on screen.' },
+    { key: 'clicks', label: 'Clicks', description: 'How dense clicks are inside each section, from cool blue for a few to red for the most.' },
+    { key: 'frustration', label: 'Frustration', description: 'A red circle is a rage click, a grey square a dead click.' },
+];
 
 const root = ref(null);
 const layers = ref({ attention: true, clicks: true, frustration: true });
@@ -86,9 +92,12 @@ watch(
                 <VisitPlayer v-if="playback" :visit="playback.visit" :events="playback.events" :path="path" :context="context" @close="emit('close')" />
 
                 <div v-else class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                    <label class="flex items-center gap-2"><Switch v-model="layers.attention" size="sm" /> Attention</label>
-                    <label class="flex items-center gap-2"><Switch v-model="layers.clicks" size="sm" /> Clicks</label>
-                    <label class="flex items-center gap-2"><Switch v-model="layers.frustration" size="sm" /> Frustration</label>
+                    <div v-for="layer in LAYERS" :key="layer.key" class="flex items-center gap-1.5">
+                        <label class="flex items-center gap-2"><Switch v-model="layers[layer.key]" size="sm" /> {{ layer.label }}</label>
+                        <button v-tooltip="layer.description" type="button" class="flex cursor-help text-gray-500" :aria-label="`${layer.label}: ${layer.description}`">
+                            <Icon name="info" class="size-4" />
+                        </button>
+                    </div>
                 </div>
 
                 <PageFrame
@@ -105,9 +114,6 @@ watch(
                 />
 
                 <ul v-if="!playback" class="space-y-1 text-xs text-gray-500">
-                    <li>Attention: each section is tinted darker the fewer views reached it, and labelled with its reach and median time on screen.</li>
-                    <li>Clicks: how dense clicks are inside each section, from cool blue for a few to red for the most.</li>
-                    <li>Frustration: a red circle is a rage click, a grey square a dead click.</li>
                     <li>Fixed and sticky sections, such as a sticky header, sit wherever the frame is scrolled, so they are left off the map. Their clicks are in the lists.</li>
                     <li v-if="data">
                         Drawn: {{ number(counts.clicks) }} clicks, {{ number(counts.rage) }} rage and {{ number(counts.dead) }} dead clicks from
