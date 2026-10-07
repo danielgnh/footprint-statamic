@@ -1,0 +1,11 @@
+/vendor
+/node_modules
+/composer.lock
+/composer-integrity.lock
+/.phpunit.cache
+.phpunit.result.cache
+/resources/dist/hot
+/tests/__fixtures__/dev-null/*
+!/tests/__fixtures__/dev-null/.gitkeep
+.DS_Store
+/.idea

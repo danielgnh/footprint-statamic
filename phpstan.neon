@@ -1,0 +1,14 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+        - config
+    level: 8
+    ignoreErrors:
+        # Statamic's contracts (Statamic\Contracts\Entries\Entry and the rest)
+        # are empty marker interfaces; the API lives on the concrete classes.
+        -
+            identifier: method.notFound
+            message: '#^Call to an undefined method Statamic\\Contracts\\#'

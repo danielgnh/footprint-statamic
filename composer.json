@@ -1,0 +1,90 @@
+{
+    "name": "danielgnh/footprint-statamic",
+    "description": "An Interactions tab on Statamic entries, from danielgnh/footprint: the sections visitors read, what they click, where they get stuck, drawn over the live page.",
+    "license": "MIT",
+    "keywords": [
+        "statamic",
+        "addon",
+        "analytics",
+        "heatmap",
+        "ux",
+        "privacy"
+    ],
+    "authors": [
+        {
+            "name": "Daniel Goncharov"
+        }
+    ],
+    "repositories": [
+        {
+            "name": "footprint",
+            "type": "path",
+            "url": "../footprint",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "danielgnh/footprint": "@dev",
+        "statamic/cms": "^6.31"
+    },
+    "require-dev": {
+        "driftingly/rector-laravel": "^2.5",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "pestphp/pest": "^4.0",
+        "phpstan/phpstan": "^2.0",
+        "rector/rector": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Danielgnh\\FootprintStatamic\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Danielgnh\\FootprintStatamic\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "format": "pint",
+        "lint": "pint --test",
+        "refactor": "rector",
+        "test:refactor": "rector --dry-run",
+        "test:lint": "pint --test",
+        "test:types": "phpstan analyse",
+        "test:unit": "pest",
+        "test": [
+            "@test:refactor",
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "pixelfear/composer-dist-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "statamic": {
+            "name": "Footprint",
+            "description": "How visitors use each entry's page, in an Interactions tab"
+        },
+        "laravel": {
+            "providers": [
+                "Danielgnh\\FootprintStatamic\\ServiceProvider"
+            ]
+        },
+        "soak-time-whitelist": [
+            "danielgnh/footprint"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
